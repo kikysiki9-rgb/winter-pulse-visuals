@@ -21,23 +21,15 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Set up Gradle 8.11.1
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.11.1'
-
-      - name: Install Gradle Wrapper when missing
-        shell: bash
-        run: |
-          if [ ! -f gradlew ]; then
-            gradle wrapper --gradle-version 8.11.1 --distribution-type bin
-          fi
-          chmod +x gradlew
+          gradle-version: '8.13'
 
       - name: Build
-        run: ./gradlew clean build --stacktrace --info
+        run: gradle clean build --no-daemon
 
-      - name: Upload mod JAR
+      - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: winter-pulse-visuals
