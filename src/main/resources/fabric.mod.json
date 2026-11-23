@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "winterpulse",
+  "version": "${version}",
+  "name": "Winter Pulse Visuals",
+  "description": "Lightweight client visual effects for Fabric 1.21.4",
+  "authors": ["kikysiki9-rgb"],
+  "environment": "client",
+  "entrypoints": { "client": ["dev.winterpulse.WinterPulseClient"] },
+  "depends": { "fabricloader": ">=0.16.10", "minecraft": "~1.21.4", "java": ">=21", "fabric-api": "*" }
+}
