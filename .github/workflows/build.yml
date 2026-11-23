@@ -10,40 +10,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Java 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: gradle
 
-      - name: Install Gradle 8.11.1
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl --fail --location --retry 3 https://services.gradle.org/distributions/gradle-8.11.1-bin.zip --output "$RUNNER_TEMP/gradle.zip"
-          unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/gradle-8.11.1/bin" >> "$GITHUB_PATH"
-          "$RUNNER_TEMP/gradle-8.11.1/bin/gradle" --version
+      - name: Set up Gradle 8.11.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
 
       - name: Install Gradle Wrapper when missing
         shell: bash
         run: |
-          set -euo pipefail
-          if [[ ! -f ./gradlew ]]; then
+          if [ ! -f gradlew ]; then
             gradle wrapper --gradle-version 8.11.1 --distribution-type bin
           fi
-          chmod +x ./gradlew
+          chmod +x gradlew
 
-      - name: Build mod with diagnostics
-        run: ./gradlew --no-daemon --console=plain clean build --stacktrace
+      - name: Build
+        run: ./gradlew clean build --stacktrace --info
 
       - name: Upload mod JAR
         uses: actions/upload-artifact@v4
