@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -33,10 +33,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ ! -x ./gradlew ]]; then
+          if [[ ! -f ./gradlew ]]; then
             gradle wrapper --gradle-version 8.11.1 --distribution-type bin
-            chmod +x ./gradlew
           fi
+          chmod +x ./gradlew
 
       - name: Build mod
         run: ./gradlew --no-daemon clean build
