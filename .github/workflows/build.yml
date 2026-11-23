@@ -1,10 +1,10 @@
-name: Build Fabric mod
+name: Build Fabric Mod
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Set up Gradle
+      - name: Set up Gradle 8.13
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: gradle clean build --no-daemon
 
-      - name: Upload JAR
+      - name: Upload mod JAR
         uses: actions/upload-artifact@v4
         with:
           name: winter-pulse-visuals
