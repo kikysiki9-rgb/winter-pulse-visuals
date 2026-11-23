@@ -28,9 +28,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --retry 3 \
-            https://services.gradle.org/distributions/gradle-8.11.1-bin.zip \
-            --output "$RUNNER_TEMP/gradle.zip"
+          curl --fail --location --retry 3 https://services.gradle.org/distributions/gradle-8.11.1-bin.zip --output "$RUNNER_TEMP/gradle.zip"
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/gradle-8.11.1/bin" >> "$GITHUB_PATH"
           "$RUNNER_TEMP/gradle-8.11.1/bin/gradle" --version
@@ -44,8 +42,8 @@ jobs:
           fi
           chmod +x ./gradlew
 
-      - name: Build mod
-        run: ./gradlew --no-daemon clean build
+      - name: Build mod with diagnostics
+        run: ./gradlew --no-daemon --console=plain clean build --stacktrace
 
       - name: Upload mod JAR
         uses: actions/upload-artifact@v4
